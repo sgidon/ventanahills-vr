@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ventana Hills VR Tour</title>
+    <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+
+<body>
+    <a-scene cursor="rayOrigin: mouse" raycaster="objects: .link" vr-mode-ui="enabled: false">
+        <a-assets>
+            <!-- Images are loaded dynamically to save memory -->
+        </a-assets>
+
+        <!-- Sky: Displays the 360 image -->
+        <a-sky id="sky-bg" rotation="0 -90 0"></a-sky>
+
+        <!-- Camera and Cursor -->
+        <!-- Adding a cursor to the camera allows for gaze-based interaction on mobile/VR headsets -->
+        <!-- and mouse-based interaction on desktop -->
+        <a-entity id="main-camera" camera look-controls position="0 1.6 0">
+
+            <!-- Transition Overlay -->
+            <a-plane id="transition-overlay" color="#000" position="0 0 -0.5" width="2" height="2" opacity="0"
+                material="shader: flat; depthTest: false" transparent="true" render-order="9999"></a-plane>
+
+
+        </a-entity>
+
+        <!-- Navigation arrows will be added dynamically here -->
+        <a-entity id="navigation-container"></a-entity>
+    </a-scene>
+    <!-- UI Overlay for Map -->
+    <!-- Loader -->
+    <div id="loader"></div>
+    <!-- Mini Map -->
+    <div id="mini-map">
+        <img src="assets/map.webp" alt="Floor Plan Mini">
+    </div>
+
+    <!-- Info Icon -->
+    <div id="info-icon">i</div>
+
+    <!-- Info Modal -->
+    <div id="info-modal">
+        <div class="info-content">
+            <span class="close-info">&times;</span>
+            <h2>物件情報</h2>
+            <div class="link-container">
+                <a href="https://suumo.jp/ms/chuko/fukuoka/sc_kasuyagunsasaguri/nc_78890967/" target="_blank">
+                    <img src="assets/logo_suumo_l.gif" alt="リクルートの不動産・住宅サイト SUUMO(スーモ)" width="160" height="60"
+                        style="border:0;">
+                </a>
+                <a href="https://www.athome.co.jp/mansion/1134459208/" target="_blank">
+                    <img src="assets/logo_athome_200_60.gif" alt="不動産・賃貸のアットホーム" width="200" height="60"
+                        style="border:0;">
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Full Screen Map Modal -->
+    <div id="map-modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <img src="assets/map.webp" alt="Floor Plan Full">
+            <div id="map-marker"></div>
+        </div>
+    </div>
+</body>
+
+</html>

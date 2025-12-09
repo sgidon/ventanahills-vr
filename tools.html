@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <title>画像座標取得ツール</title>
+    <style>
+        #image-container {
+            position: relative;
+            cursor: crosshair;
+            /* マウスポインタを十字カーソルに変更 */
+        }
+
+        #coordinates {
+            margin-top: 10px;
+            font-size: 18px;
+            color: #333;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>画像をクリックして座標を取得</h1>
+
+    <div id="image-container">
+        <!-- ここに画像ファイルを配置してください (例: sample.jpg) -->
+        <img src="assets/map.webp" alt="マップ画像" id="myImage">
+    </div>
+
+    <p id="coordinates">X: --, Y: --</p>
+
+    <script>
+        // 画像要素を取得
+        const img = document.getElementById('myImage');
+        // 座標表示要素を取得
+        const coordsDisplay = document.getElementById('coordinates');
+
+        // 画像にクリックイベントリスナーを追加
+        img.addEventListener('click', function (event) {
+            // event.offsetX と event.offsetY で画像内の相対座標を取得
+            const x = event.offsetX;
+            const y = event.offsetY;
+
+            coordsDisplay.textContent = `X: ${x}, Y: ${y}`;
+            console.log(`クリック座標: X=${x}, Y=${y}`);
+        });
+    </script>
+</body>
+
+</html>

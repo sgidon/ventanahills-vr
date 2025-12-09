@@ -1,0 +1,292 @@
+html,
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+    /* Hide scrollbars */
+    font-family: sans-serif;
+}
+
+/* Optional overlay for title or help instructions */
+#ui-layer {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 100;
+    color: white;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 10px;
+    border-radius: 5px;
+    pointer-events: none;
+    /* Let clicks pass through to the 3D scene */
+}
+
+.info-content {
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    position: relative;
+    max-width: 90%;
+    width: 300px;
+}
+
+/* Mini Map */
+#mini-map {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    width: 100px;
+    /* Adjust size as needed */
+    z-index: 1000;
+    cursor: pointer;
+    border: 2px solid white;
+    border-radius: 5px;
+    background: rgba(0, 0, 0, 0.5);
+    transition: transform 0.2s;
+}
+
+#mini-map:hover {
+    transform: scale(1.05);
+}
+
+#mini-map img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Map Modal */
+#map-modal {
+    display: none;
+    /* Hidden by default */
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.9);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    position: relative;
+    /* Remove max-width/height here to let image dictate size */
+    width: auto;
+    height: auto;
+}
+
+.modal-content img {
+    display: block;
+    /* Remove bottom space */
+    width: auto;
+    height: auto;
+    max-width: 90vw;
+    /* Limit width */
+    max-height: 90vh;
+    /* Limit height */
+    /* Remove object-fit: contain and width: 100% to force element to match visual size */
+}
+
+/* Close Button */
+.close-btn {
+    position: absolute;
+    top: -40px;
+    right: 0;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 2001;
+}
+
+.close-btn:hover,
+.close-btn:focus {
+    color: #bbb;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Map Marker (Arrow: Triangle + Square) */
+/* Map Marker (Image) */
+#map-marker {
+    position: absolute;
+    width: 50px;
+    height: 25px;
+    background-image: url('assets/arrow_symbol_01_green-b.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2002;
+    display: none;
+    pointer-events: none;
+    /* Drop shadow for visibility on dark map */
+    filter: drop-shadow(0 0 2px white);
+}
+
+/* Interactive Map Hotspots */
+.map-hotspot {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background-color: rgba(255, 255, 255, 0.4);
+    border: 2px solid #00ff00;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+    z-index: 2003;
+    /* Above marker (2002) */
+    transition: transform 0.2s, background-color 0.2s;
+}
+
+.map-hotspot:hover {
+    transform: translate(-50%, -50%) scale(1.5);
+    background-color: rgba(0, 255, 0, 0.6);
+}
+
+/* Loading Spinner */
+#loader {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    z-index: 9999;
+    width: 50px;
+    height: 50px;
+    margin: -25px 0 0 -25px;
+    /* Center offset */
+    border: 5px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top: 5px solid #fff;
+    animation: spin 1s linear infinite;
+    display: none;
+    /* Hidden by default */
+    pointer-events: none;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Info Icon */
+#info-icon {
+    position: absolute;
+    bottom: 15px;
+    left: 15px;
+    width: 40px;
+    height: 40px;
+    background-color: rgba(0, 0, 0, 0.6);
+    border: 2px solid white;
+    border-radius: 50%;
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+    font-family: serif;
+    /* "i" looks better in serif often, or monospace */
+    text-align: center;
+    line-height: 38px;
+    /* Vertically center */
+    cursor: pointer;
+    z-index: 99999;
+    transition: transform 0.2s, background-color 0.2s;
+    user-select: none;
+    animation: pulse-animation 2s infinite;
+    pointer-events: auto;
+}
+
+#info-icon:hover {
+    transform: scale(1.1);
+    background-color: rgba(0, 0, 0, 0.8);
+    animation: none;
+    /* Stop pulsing on hover */
+}
+
+/* Info Modal */
+#info-modal {
+    display: none;
+    /* Hidden by default */
+    position: fixed;
+    z-index: 99999;
+    /* Above map modal */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    justify-content: center;
+    align-items: center;
+    pointer-events: auto;
+}
+
+.link-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+}
+
+.link-container a {
+    display: block;
+    transition: opacity 0.2s;
+}
+
+.link-container a:hover {
+    opacity: 0.8;
+}
+
+.link-container img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    border: 1px solid #ddd;
+}
+
+/* Close Info Button */
+.close-info {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    line-height: 20px;
+    z-index: 1;
+    /* Ensure on top of content */
+}
+
+.close-info:hover,
+.close-info:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+@keyframes pulse-animation {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7);
+    }
+
+    70% {
+        transform: scale(1.1);
+        box-shadow: 0 0 0 10px rgba(255, 255, 255, 0);
+    }
+
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+    }
+}
